@@ -1,0 +1,22 @@
+{
+  "packageId": "wpk7JDshcGJgh",
+  "spaceId": "spchPAEDQruln",
+  "entry": "./src/index.tsx",
+  "name": {
+    "zh-CN": "漏斗图",
+    "en-US": "Funnel Chart"
+  },
+  "icon": "./package_icon.png",
+  "cover": "./cover.png",
+  "authorIcon": "./author_icon.png",
+  "description": {
+    "zh-CN": "比较各环节业务数据，发现问题，进而做出决策。常用于短信/邮件/电商销售的活动监控，或者在复盘汇报中可视化展示。",
+    "en-US": "Analyze the data for different sections within the procedure, reveal the issue and help making the well-informed decision. Often used in SMS/email/online retailing campaigns as well as data visualization in summary reports."
+  },
+  "globalPackageId": "wpkZV0RkAD90t",
+  "sandbox": true,
+  "authorName": "vika",
+  "authorLink": "https://vika.cn/developers",
+  "authorEmail": "developer@vikadata.com",
+  "website": "https://bbs.vika.cn/article/155"
+}

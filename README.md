@@ -17,7 +17,7 @@
 ![cover](https://s1.vika.cn/space/2022/04/14/b9ef2f5db38b4ea5b8cc042c523b1e8c)
 ### 体验地址
 为了让大家可以快速体验到这款小程序的用途，这里已经提前做好了一个维格表模板，浏览器打开即可体验：
-👉 [戳我体验](https://vika.cn/share/shrZv9w7WzrB1N1GNqbbP)
+👉 [戳我体验](https://vika.cn/share/shrVbPP5l47KPwvvX7ZD6)
 
 ### 官方教程
 想了解更多使用场景和小技巧，可参考官方教程：

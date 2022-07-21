@@ -1,6 +1,6 @@
 {
-  "packageId": "wpk7JDshcGJgh",
-  "spaceId": "spchPAEDQruln",
+  "packageId": "",
+  "spaceId": "",
   "entry": "./src/index.tsx",
   "name": {
     "zh-CN": "漏斗图",

@@ -7,6 +7,7 @@ import {
   useMeta,
   useSettingsButton,
   useViewIds,
+  RuntimeEnv
 } from "@vikadata/widget-sdk";
 
 import { Box, Typography, Button, Alert, Tooltip, useThemeColors } from "@vikadata/components";
@@ -41,7 +42,7 @@ export const Setting: React.FC<ISettingProps> = (props) => {
   const [isSettingOpened] = useSettingsButton();
   const { viewId, dimensionFieldIds } = config;
 
-  const { installPosition } = useMeta(); // 获取小程序安装位置
+  const { installPosition, runtimeEnv } = useMeta(); // 获取小程序安装位置、运行环境
   const colors = useThemeColors()
 
 
@@ -93,7 +94,8 @@ export const Setting: React.FC<ISettingProps> = (props) => {
 
   // TODO: 后续加上 i18n
   return (
-    <SettingPanel openSetting={isSettingOpened} readOnly={!editable} colors={colors}>
+    <SettingPanel openSetting={runtimeEnv == RuntimeEnv.Desktop && 
+    isSettingOpened} readOnly={!editable} colors={colors}>
       <div style={{ display: "flex", paddingBottom: "6px" }}>
         <Typography style={{ fontSize: "16px" }}>漏斗图配置</Typography>
         <Tooltip content="配置教程" placement="top-end">

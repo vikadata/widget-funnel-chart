@@ -23,6 +23,8 @@
 想了解更多使用场景和小技巧，可参考官方教程：
 👉 [戳我上手](https://vika.cn/help/intro-widget-funnel-chart/)
 
+### 更新日志
+参见：[changelog](changelog.md)
 
 ## 相关项目
 - [awesome-vikadata](https://github.com/vikadata/awesome-vikadata)

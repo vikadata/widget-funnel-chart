@@ -14,9 +14,10 @@ import {
   useRecords,
   useSelection,
   useViewport,
+  useMeta,
+  RuntimeEnv
 } from "@vikadata/widget-sdk";
-import { Modal, Popconfirm, message } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Popconfirm } from "antd";
 import { ChartPanel } from "./styled";
 import { getNumFields } from "../utils";
 import { defaultEmptyContent } from "./empty_content";
@@ -41,7 +42,7 @@ const getRecordIndex = (allRecords, selection, individualSelection, freeze) => {
 export const View: React.FC<IViewProps> = (props) => {
   const { config, setConfig, editable } = props;
   const { viewId, dimensionFieldIds, selection, freeze } = config;
-
+  const { runtimeEnv } = useMeta();
   const { isFullscreen } = useViewport();
   const currSelection = useSelection();
   const allRecords = useRecords(viewId);
@@ -255,7 +256,7 @@ export const View: React.FC<IViewProps> = (props) => {
           >
             <Box>
               {!freeze ? (
-                prevDisable ? (
+                runtimeEnv == RuntimeEnv.Mobile || prevDisable ? (
                   <IconButton
                     icon={ArrowUpOutlined}
                     component="button"
@@ -291,7 +292,7 @@ export const View: React.FC<IViewProps> = (props) => {
             </Box>
             <Box>
               {!freeze ? (
-                nextDisable ? (
+                runtimeEnv == RuntimeEnv.Mobile || nextDisable ? (
                   <IconButton
                     icon={ArrowDownOutlined}
                     component="button"

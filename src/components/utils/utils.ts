@@ -46,7 +46,7 @@ export const getNumFields = (viewId) => {
   const number_fields = allFields.filter(
     (f) =>
       f.basicValueType === "Number" &&
-      !["Currency", "Percent", "Rating", "AutoNumber"].includes(f.type)
+      !["Percent", "Rating", "AutoNumber"].includes(f.type)
   );
   return number_fields;
 };

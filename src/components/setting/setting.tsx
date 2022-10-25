@@ -102,7 +102,7 @@ export const Setting: React.FC<ISettingProps> = (props) => {
           <div style={{ display: "flex", marginLeft: "4px", marginTop: "3px" }}>
             <a
               className={"linkToDocs"}
-              href="https://vika.cn/help/intro-widget-funnel-chart/"
+              href="https://help.vika.cn/docs/guide/intro-widget-funnel-chart"
               target="_blank"
             >
               <InformationSmallOutlined></InformationSmallOutlined>

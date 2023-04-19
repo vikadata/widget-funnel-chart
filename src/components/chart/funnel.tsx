@@ -2,7 +2,7 @@ import { FunnelPart, ResponsiveFunnel } from "@nivo/funnel";
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import { useTheme, useMotionConfig } from "@nivo/core";
-import { useField, useMeta } from "@vikadata/widget-sdk";
+import { useField, useMeta } from "@apitable/widget-sdk";
 
 import { BasicTooltip } from "@nivo/tooltip";
 
@@ -76,7 +76,7 @@ export const MyResponsiveFunnel = ({ data }) => {
   const { theme } = useMeta()
 
   return (
-    // TODO： 等到后续自定义可以把静态配置项，如 colors、border、labelColor 等，都在一个方法中返回，相当于一份配置，比如叫 staticConfig，这样可以只关注变动的参数
+    // TODO: Wait until supporting customized items, such as Colors, Border, Labelcolor, etc., are returned in a method, which is equivalent to a configuration, such as staticconfig. This can only pay attention to the parameters of the change
     <div style={{ width: "99%" }}>
       <ResponsiveFunnel
         data={data}

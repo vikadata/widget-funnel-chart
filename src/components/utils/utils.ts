@@ -1,4 +1,4 @@
-import { Field, FieldType, useFields } from "@vikadata/widget-sdk";
+import { Field, FieldType, useFields } from "@apitable/widget-sdk";
 import { isEqual } from "lodash";
 
 export interface IIsMultiProps {
@@ -8,10 +8,10 @@ export interface IIsMultiProps {
   currentRecordIndex: number;
 }
 
-// 判断是否多选记录
+// Determine whether to choose multiple records
 export const isMulti = (props: IIsMultiProps) => {
   const { freeze, currSelection, selection } = props;
-  // 根据 index 判断要不要变成 single
+  // Based on index judgment, do you want to become single
   if (!freeze && !isEqual(currSelection, selection) && currSelection) {
     return true;
   }
@@ -25,7 +25,7 @@ export const sum = (records, number_field) => {
   );
 };
 
-// TODO: 目前 IConfig 已经去掉 fieldsMap，等排序功能开发后修改此函数
+// TODO: At present IConfig has removed fieldsMap, and after the development of the sorting function is developed, modify this function
 export function sortByValue(fieldsMap, records, number_fields, reverse) {
   fieldsMap.sort(
     (x, y) => sum(records, number_fields[x]) - sum(records, number_fields[y])
@@ -40,7 +40,7 @@ export const numberFieldsFilter = (dimensionFields: Field[]) => {
   return dimensionFields.filter((f) => f.type === "Number").map((f) => f.id);
 };
 
-// 获取数字类型的列
+// Get the fields of numbers
 export const getNumFields = (viewId) => {
   const allFields = useFields(viewId);
   const number_fields = allFields.filter(

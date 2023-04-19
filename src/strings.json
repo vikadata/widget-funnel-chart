@@ -1,0 +1,101 @@
+{
+  "strings": {
+    "at_least_one_digital_field": {
+      "zh_CN": "至少需要一个数字字段作为维度，才能渲染漏斗图",
+      "en_US": "At least one digital field is required as a dimension to render the funnel map"
+    },
+    "select_one_or_multi_fields": {
+      "zh_CN": "请选择一个或多个维度",
+      "en_US": "Please select one or more dimensions"
+    },
+    "select_one_or_multi_records": {
+      "zh_CN": "请选择一个或多个记录",
+      "en_US": "Please select one or more records"
+    },
+    "data_source": {
+      "zh_CN": "数据来源：",
+      "en_US": "Data source: "
+    },
+    "more_record": {
+      "zh_CN": "等",
+      "en_US": "and more"
+    },
+
+    "records_count": {
+      "zh_CN": "条记录",
+      "en_US": "records"
+    },
+    "previous_record": {
+      "zh_CN": "上一个",
+      "en_US": "Previous"
+    },
+    "next_record": {
+      "zh_CN": "下一个",
+      "en_US": "Next"
+    },
+    "unlock_tips": {
+      "zh_CN": "取消锁定后，当前漏斗图仅在本地渲染",
+      "en_US": "After the lock is canceled, the current funnel map is only rendered locally"
+    },
+    "lock_tips": {
+      "zh_CN": "开启锁定后，当前漏斗图将固定下来，不再跟随鼠标移动或切换记录而更新图形",
+      "en_US": "After opening the lock, the current funnel map will be fixed, no longer follow the mouse to move or switch records and update the graphic"
+    },
+    "lock_confirm": {
+      "zh_CN": "确认",
+      "en_US": "Confirm"
+    },
+    "lock_cancel": {
+      "zh_CN": "取消",
+      "en_US": "Cancel"
+    },
+    "settings": {
+      "zh_CN": "漏斗图配置",
+      "en_US": "Settings"
+    },
+    "settings_tutorial": {
+      "zh_CN": "配置教程",
+      "en_US": "Tutorial"
+    },
+    "function_settings": {
+      "zh_CN": "功能配置",
+      "en_US": "Function settings"
+    },
+    "select_dimensions": {
+      "zh_CN": "选择维度",
+      "en_US": "Select dimensions"
+    },
+    "max_dimensions_tips": {
+      "zh_CN": "最多只能添加 10 个维度",
+      "en_US": "Only 10 dimensions can be added at most"
+    },
+    "add_a_dimension": {
+      "zh_CN": "添加维度",
+      "en_US": "Add"
+    },
+    "filters_amount": {
+			"zh_CN": " 个筛选",
+			"en_US": " filter(s)"
+		},
+		"filter_modal_title": {
+			"zh_CN": "筛选设置",
+			"en_US": "Filter Setting"
+		},
+		"add_filter": {
+			"zh_CN": "添加筛选条件",
+			"en_US": "Add filter"
+		},
+		"confirm": {
+			"zh_CN": "确认",
+			"en_US": "Confirm"
+		},
+		"cancel": {
+			"zh_CN": "取消",
+			"en_US": "Cancel"
+		},
+    "filter": {
+      "zh_CN": "筛选",
+			"en_US": "Filter"
+    }
+  }
+}

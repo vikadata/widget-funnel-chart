@@ -1,31 +1,31 @@
 import { IConfig } from "index";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   useActiveViewId,
-  useDatasheet,
-  useFields,
   useMeta,
   useSettingsButton,
   useViewIds,
+  t,
   RuntimeEnv
-} from "@vikadata/widget-sdk";
+} from "@apitable/widget-sdk";
 
-import { Box, Typography, Button, Alert, Tooltip, useThemeColors } from "@vikadata/components";
-import { AddOutlined, InformationSmallOutlined } from "@vikadata/icons";
+import { Typography, Button, Alert, Tooltip, useThemeColors } from "@apitable/components";
+import { AddOutlined, InformationSmallOutlined } from "@apitable/icons";
 import { FieldItem } from "./fieldItem/fieldItem";
 import { SettingPanel } from "./styled";
-import { getNumFields } from "../utils";
+import { getNumFields, Strings } from "../utils";
+import { FilterSelect } from "./filter_select";
 
 
 
 const FormItem = ({ label, colors, children }) => {
   return (
-    <Box>
+    <div style={{ marginBottom: 16 }}>
       <Typography style={{ fontSize: "12px", color: colors.fc3 }}>
         {label}
       </Typography>
       <div style={{ width: "100%" }}>{children}</div>
-    </Box>
+    </div>
   );
 };
 
@@ -42,23 +42,21 @@ export const Setting: React.FC<ISettingProps> = (props) => {
   const [isSettingOpened] = useSettingsButton();
   const { viewId, dimensionFieldIds } = config;
 
-  const { installPosition, runtimeEnv } = useMeta(); // 获取小程序安装位置、运行环境
+  const { installPosition, runtimeEnv } = useMeta(); // Get the installation location and operating environment of the widget
   const colors = useThemeColors()
-
 
   const activeViewId =
     installPosition === "WidgetPanel" ? useActiveViewId() : useViewIds()[0];
-  const allFields = useFields(viewId);
   const number_fields = getNumFields(viewId);
   const number_fieldIds = number_fields.map((field) => field.id);
-  // 新增/修改/删除 数字列时，同步修改 dimensionFieldIds
+  // When create/update/delete the number field, modify the demensionFieldIds synchronous modification
   const currDimensionFieldIds = dimensionFieldIds.filter((dimensionFieldId) =>
     number_fieldIds.includes(dimensionFieldId)
   );
 
   const currDimensionFieldIdsStr = currDimensionFieldIds.join(",");
 
-  // TODO: 后续通过控制维度配置面板（filter）来被动更新 dimensionField
+  // TODO: Passive update of dimensionField through the control dimension configuration panel (Filter)
   useMemo(() => {
     setConfig({ ...config, dimensionFieldIds: currDimensionFieldIds });
   }, [currDimensionFieldIdsStr]);
@@ -85,24 +83,24 @@ export const Setting: React.FC<ISettingProps> = (props) => {
       break;
     }
     if (first_one === -1) {
-      console.error("没有找到空位");
+      console.error("No empty position");
       return;
     }
-    dimensionFieldIds.push(number_fields[first_one].id);
-    setConfig(config);
+    let tempDimensionFieldIds = [...dimensionFieldIds]
+    tempDimensionFieldIds.push(number_fields[first_one].id);
+    setConfig({ ...config, dimensionFieldIds: tempDimensionFieldIds });
   };
 
-  // TODO: 后续加上 i18n
   return (
     <SettingPanel openSetting={runtimeEnv == RuntimeEnv.Desktop && 
     isSettingOpened} readOnly={!editable} colors={colors}>
       <div style={{ display: "flex", paddingBottom: "6px" }}>
-        <Typography style={{ fontSize: "16px" }}>漏斗图配置</Typography>
-        <Tooltip content="配置教程" placement="top-end">
+        <Typography style={{ fontSize: "16px" }}>{t(Strings.settings)}</Typography>
+        <Tooltip content={t(Strings.settings_tutorial)} placement="top-end">
           <div style={{ display: "flex", marginLeft: "4px", marginTop: "3px" }}>
             <a
               className={"linkToDocs"}
-              href="https://help.vika.cn/docs/guide/intro-widget-funnel-chart"
+              href="https://help.apitable.com/docs/guide/intro-widget-funnel-chart/"
               target="_blank"
             >
               <InformationSmallOutlined></InformationSmallOutlined>
@@ -113,10 +111,17 @@ export const Setting: React.FC<ISettingProps> = (props) => {
       <div
         style={{ display: "flex", paddingBottom: "16px", paddingTop: "6px" }}
       >
-        <Typography style={{ fontSize: "14px" }}>功能配置</Typography>
+        <Typography style={{ fontSize: "14px" }}>{t(Strings.function_settings)}</Typography>
       </div>
 
-      <FormItem label={`选择维度(${dimensionFieldIds.length}/10)`} colors={colors}>
+      <FormItem label={`${t(Strings.filter)}`} colors={colors}>
+        <FilterSelect 
+          value={config.filter}
+          onChange={(filter) => setConfig({ ...config, filter })}
+        />
+      </FormItem>
+
+      <FormItem label={`${t(Strings.select_dimensions)}(${dimensionFieldIds.length}/10)`} colors={colors}>
         {Array.from(dimensionFieldIds, (v: string, i) => {
           return (
             <FieldItem config={config} setConfig={setConfig} i={i} v={v} />
@@ -124,7 +129,7 @@ export const Setting: React.FC<ISettingProps> = (props) => {
         })}
         {dimensionFieldIds.length >= maxDimensionNum ? (
           <Alert
-            content="最多只能添加 10 个维度"
+            content={t(Strings.max_dimensions_tips)}
             onClose={function noRefCheck() {}}
             type={"error"}
             style={{ marginBottom: "8px" }}
@@ -135,7 +140,7 @@ export const Setting: React.FC<ISettingProps> = (props) => {
           prefixIcon={<AddOutlined />}
           onClick={add}
         >
-          添加维度
+          {t(Strings.add_a_dimension)}
         </Button>
       </FormItem>
     </SettingPanel>

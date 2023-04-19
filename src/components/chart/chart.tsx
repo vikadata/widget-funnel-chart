@@ -2,24 +2,25 @@ import { IConfig } from "index";
 import { isEqual } from "lodash";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MyResponsiveFunnel } from "./funnel";
-import { Alert, IconButton, Tooltip, Box, useThemeColors } from "@vikadata/components";
+import { Alert, IconButton, Tooltip, Box, useThemeColors } from "@apitable/components";
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   LockNonzeroOutlined,
   LockFilled,
-} from "@vikadata/icons";
+} from "@apitable/icons";
 import {
   useCloudStorage,
   useRecords,
   useSelection,
   useViewport,
+  t,
   useMeta,
   RuntimeEnv
-} from "@vikadata/widget-sdk";
+} from "@apitable/widget-sdk";
 import { Popconfirm } from "antd";
 import { ChartPanel } from "./styled";
-import { getNumFields } from "../utils";
+import { getNumFields, Strings } from "../utils";
 import { defaultEmptyContent } from "./empty_content";
 
 interface IViewProps {
@@ -41,12 +42,14 @@ const getRecordIndex = (allRecords, selection, individualSelection, freeze) => {
 
 export const View: React.FC<IViewProps> = (props) => {
   const { config, setConfig, editable } = props;
-  const { viewId, dimensionFieldIds, selection, freeze } = config;
+  const { viewId, filter, dimensionFieldIds, selection, freeze } = config;
   const { runtimeEnv } = useMeta();
   const { isFullscreen } = useViewport();
   const currSelection = useSelection();
-  const allRecords = useRecords(viewId);
+  const recordQuery = useMemo(() => ({ filter }), [filter]);
+  const allRecords = useRecords(viewId, recordQuery);
   const [isMulti, _setIsMulti] = useCloudStorage("isMulti", false);
+
   const setIsMulti = useCallback(
     (isMulti) => {
       if (!editable) return;
@@ -55,8 +58,7 @@ export const View: React.FC<IViewProps> = (props) => {
     [editable, _setIsMulti]
   );
   const colors = useThemeColors()
-  console.log('@@',colors)
-  // 定义个人本地上的 recordIndex 和 selection state
+  // Define the recordindex and selection state on the individual
   const [individualSelection, setIndividualSelection] = useState(currSelection);
   const [recordsLength, setRecordsLength] = useState(
     selection?.recordIds.length || 0
@@ -94,7 +96,7 @@ export const View: React.FC<IViewProps> = (props) => {
     }
   }, [recordIdsInConfigSelectionStr, freeze]);
 
-  // 如果没有开启“锁定”，并且有单元格选区高亮，则使用选区内的记录作为初始化数据
+  // If there is no "lock" and seleted cells is highlight, the selected records are used as the initialization data
   useEffect(() => {
     const newRecordIndex = getRecordIndex(
       allRecords,
@@ -111,7 +113,7 @@ export const View: React.FC<IViewProps> = (props) => {
     if (allRecords.length > 0) {
       setCurrentRecordIndex(newRecordIndex);
     }
-  }, [recordIdsInSelectionStr, freeze, allRecords]);
+  }, [recordIdsInSelectionStr, freeze]);
 
   const changeCurrentRecordIndex = () => {
     if (
@@ -141,6 +143,7 @@ export const View: React.FC<IViewProps> = (props) => {
 
   const multiRecords = useRecords(viewId, {
     ids: individualSelection?.recordIds,
+    filter
   });
 
   const singleRecord = allRecords.length
@@ -186,16 +189,16 @@ export const View: React.FC<IViewProps> = (props) => {
 
   if (!getNumFields(viewId).length) {
     return defaultEmptyContent({
-      content: "至少需要一个数字字段作为维度，才能渲染漏斗图",
+      content: t(Strings.at_least_one_digital_field),
     });
   }
 
   if (!dimensionFieldIds.length) {
-    return defaultEmptyContent({ content: "请选择一个或多个维度" });
+    return defaultEmptyContent({ content: t(Strings.select_one_or_multi_fields) });
   }
 
   if (!records.length) {
-    return defaultEmptyContent({ content: "请选择一条或多条记录" });
+    return defaultEmptyContent({ content: t(Strings.select_one_or_multi_records) });
   }
 
   return (
@@ -228,7 +231,7 @@ export const View: React.FC<IViewProps> = (props) => {
                   color: colors.fc1
                 }}
               >
-                <span style={{ color: colors.fc3 }}>数据来源：</span>
+                <span style={{ color: colors.fc3 }}>{t(Strings.data_source)}</span>
                 {records[0].title}
               </Box>
               <Box
@@ -241,7 +244,7 @@ export const View: React.FC<IViewProps> = (props) => {
                 }}
               >
                 <span style={{color: colors.fc1}}>
-                  {recordsLength <= 1 ? "" : `等 ${recordsLength} 条记录`}
+                  {recordsLength <= 1 ? "" : `${t(Strings.more_record)} ${recordsLength} ${t(Strings.records_count)}`}
                 </span>
               </Box>
             </Box>
@@ -270,7 +273,7 @@ export const View: React.FC<IViewProps> = (props) => {
                     }}
                   />
                 ) : (
-                  <Tooltip content="上一个" trigger="hover">
+                  <Tooltip content={t(Strings.previous_record)} trigger="hover">
                     <span>
                       <IconButton
                         style={{color:colors.thirdLevelText}}
@@ -306,7 +309,7 @@ export const View: React.FC<IViewProps> = (props) => {
                     }}
                   />
                 ) : (
-                  <Tooltip content="下一个" trigger="hover">
+                  <Tooltip content={t(Strings.next_record)} trigger="hover">
                     <span>
                       <IconButton
                         style={{color:colors.thirdLevelText}}
@@ -341,18 +344,16 @@ export const View: React.FC<IViewProps> = (props) => {
               <Popconfirm
                 title={
                   freeze ? (
-                    <span style={{color: colors.fc1}}>取消锁定后，当前漏斗图仅在本地渲染</span>
+                    <span style={{color: colors.fc1}}>{t(Strings.unlock_tips)}</span>
                   ) : (
                     <span style={{color: colors.fc1}}>
-                      开启锁定后，当前漏斗图将固定下来，
-                      <br />
-                      不再跟随鼠标移动或切换记录而更新图形
+                      {t(Strings.lock_tips)}
                     </span>
                   )
                 }
                 onConfirm={lockCurrentRecord}
-                okText="确认"
-                cancelText="取消"
+                okText={t(Strings.lock_confirm)}
+                cancelText={t(Strings.lock_cancel)}
                 placement="leftTop"
                 disabled={!editable}
                 color={colors.defaultBg}

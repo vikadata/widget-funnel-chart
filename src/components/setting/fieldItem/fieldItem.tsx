@@ -1,6 +1,6 @@
-import { IconButton, Select, useThemeColors } from "@vikadata/components";
-import { DeleteOutlined } from "@vikadata/icons";
-import { useFields, useRecords, useSettingsButton } from "@vikadata/widget-sdk";
+import { IconButton, Select, useThemeColors } from "@apitable/components";
+import { DeleteOutlined } from "@apitable/icons";
+import { useSettingsButton } from "@apitable/widget-sdk";
 import { getNumFields } from "../../utils";
 import { IConfig } from "index";
 import React from "react";
@@ -15,15 +15,15 @@ interface IFieldItem {
 
 export const FieldItem: React.FC<IFieldItem> = (props) => {
   const [isSettingOpened] = useSettingsButton();
-  const { i, v, config, setConfig } = props; // i为 dimensionFieldIds 里的索引， v为 dimensionFieldIds 的值
+  const { i, v, config, setConfig } = props; // The "i" is an index in dimensionFieldids, the "v" is the value of dimensionFieldids
   const { dimensionFieldIds, viewId } = config;
-  const allFields = useFields(viewId);
   const colors = useThemeColors()
   const number_fields = getNumFields(viewId);
 
   const changeHandler = (option) => {
-    dimensionFieldIds.splice(i, 1, option.value);
-    // // TODO: 后续排序功能开发修改此函数
+    let tempDimensionFieldIds = [...dimensionFieldIds]
+    tempDimensionFieldIds.splice(i, 1, option.value);
+    // // TODO: Subsequent sorting function development modify this function
     // switch (mode) {
     //   case "2":
     //     config.dimensionFieldIds = sortByValue(
@@ -42,8 +42,7 @@ export const FieldItem: React.FC<IFieldItem> = (props) => {
     //     );
     //     break;
     // }
-
-    setConfig(config);
+    setConfig({ ...config, dimensionFieldIds: tempDimensionFieldIds });
   };
 
   return isSettingOpened ? (
@@ -59,8 +58,8 @@ export const FieldItem: React.FC<IFieldItem> = (props) => {
         {number_fields.map((option, index) => {
           return (
             <Select.Option
-              tabIndex={index} // tabIndex 为num_fields的索引
-              value={option.id} // 维度（字段 id）
+              tabIndex={index} // tabindex is the index of num_fields
+              value={option.id} // Dimension (field ID)
               currentIndex={index}
             >
               {option.name}
@@ -75,8 +74,9 @@ export const FieldItem: React.FC<IFieldItem> = (props) => {
           size="small"
           className={"dragHandler"}
           onClick={() => {
-            config.dimensionFieldIds.splice(i, 1);
-            setConfig({ ...config, dimensionFieldIds });
+            let tempDimensionFieldIds = [...config.dimensionFieldIds]
+            tempDimensionFieldIds.splice(i, 1);
+            setConfig({ ...config, dimensionFieldIds: tempDimensionFieldIds });
           }}
         />
       </IconWrap>

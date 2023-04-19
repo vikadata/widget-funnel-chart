@@ -1,6 +1,5 @@
 import React from "react";
-import { black, useThemeColors } from "@vikadata/components";
-
+import { black, useThemeColors } from "@apitable/components";
 interface EmptyContentProps {
   content: string;
 }
@@ -21,7 +20,7 @@ export function defaultEmptyContent(props: EmptyContentProps) {
     >
       <img
         alt="empty-image"
-        src="https://s1.vika.cn/space/2022/02/16/7f9dca59465c4ac8be91dbbf1ab4abad"
+        src="https://legacy-s1.apitable.com/space/2022/02/16/7f9dca59465c4ac8be91dbbf1ab4abad"
         style={{
           width: 160,
           height: 120,

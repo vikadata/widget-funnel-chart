@@ -4,14 +4,11 @@ import {
   useSelection,
   useCloudStorage,
   useActiveViewId,
-  useFields,
   useMeta,
   useViewIds,
-  useDatasheet,
-  FieldType,
   useSettingsButton,
-} from "@vikadata/widget-sdk";
-import { ThemeProvider, useThemeColors } from "@vikadata/components";
+} from "@apitable/widget-sdk";
+import { ThemeProvider, useThemeColors } from "@apitable/components";
 import { Setting } from "./components/setting/setting";
 import { View } from "./components/chart/chart";
 import "antd/dist/antd.css";
@@ -25,6 +22,7 @@ export enum SortType {
 
 export interface IConfig {
   viewId: string | undefined;
+  filter: string | null;
   freeze: boolean;
   dimensionFieldIds: string[];
   sortType: SortType;
@@ -32,15 +30,15 @@ export interface IConfig {
   selection?: undefined | { recordIds: string[]; fieldIds: string[] };
 }
 
-// 初始化配置
+// Initial configuration
 export const useGetDefaultConfig = () => {
-  const { installPosition } = useMeta(); // 获取小程序安装位置
+  const { installPosition } = useMeta(); // Get the widget installation location
 
   const defaultViewId =
     installPosition === "WidgetPanel" ? useActiveViewId() : useViewIds()[0];
   const selection = useSelection();
   const dimensionField = getNumFields(defaultViewId);
-  const dimensionFieldIds = dimensionField.map((f) => f.id); // 获取 defaultViewId 下所有「数字」列的 id
+  const dimensionFieldIds = dimensionField.map((f) => f.id); // Get all the ID of all number fields under defaultViewid
   const defaultDimensionFieldIdsLengthMax = 5;
   const defaultDimensionFieldIds =
     dimensionFieldIds.length <= defaultDimensionFieldIdsLengthMax
@@ -49,18 +47,19 @@ export const useGetDefaultConfig = () => {
 
   return useCallback(() => {
     return {
-      viewId: defaultViewId, // 视图的ID
-      freeze: false, // 是否锁定
-      dimensionFieldIds: defaultDimensionFieldIds, // 所选字段对应的 id
-      sortType: SortType.None, // 排序模式，默认是 None
-      currentRecordIndex: 0, // 当前所选记录的索引
-      selection: selection, // 当前选区
+      viewId: defaultViewId, // View ID
+      filter: null,
+      freeze: false, // whether to lock
+      dimensionFieldIds: defaultDimensionFieldIds, // The selected field's ID
+      sortType: SortType.None, // Sorting mode, default is None
+      currentRecordIndex: 0, // The index of the currently selected record
+      selection: selection, // Current Selection
     };
   }, []);
 };
 
 export const App: React.FC = () => {
-  const { theme } = useMeta(); // 获取小程序主题模式
+  const { theme } = useMeta(); // Get the theme mode of the widget
   const colors = useThemeColors()
   const defaultConfig = useGetDefaultConfig();
   const [isSettingOpened] = useSettingsButton();
@@ -69,7 +68,7 @@ export const App: React.FC = () => {
     defaultConfig
   );
 
-  // 初始化时判断权限
+  // Judging permissions during initialization
   const setConfig = useCallback(
     (config) => {
       if (!editable) return;

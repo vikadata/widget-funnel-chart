@@ -59,7 +59,7 @@ export const View: React.FC<IViewProps> = (props) => {
   );
   const colors = useThemeColors()
   // Define the recordindex and selection state on the individual
-  const [individualSelection, setIndividualSelection] = useState(currSelection);
+  const [individualSelection, setIndividualSelection] = useCloudStorage("individualSelection", currSelection);
   const [recordsLength, setRecordsLength] = useState(
     selection?.recordIds.length || 0
   );

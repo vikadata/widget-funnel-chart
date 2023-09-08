@@ -29,7 +29,7 @@ widget-cli start
 
 ### Tutorial
 For details, see the official help manual 
-[Funnel Chart | APITable](https://help.apitable.com/docs/guide/intro-widget-funnel-chart/)
+[Funnel Chart | APITable](https://help.aitable.ai/docs/guide/intro-widget-funnel-chart/)
 
 ### Changelog
 See: [changelog](changelog.md)

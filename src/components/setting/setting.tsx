@@ -100,7 +100,7 @@ export const Setting: React.FC<ISettingProps> = (props) => {
           <div style={{ display: "flex", marginLeft: "4px", marginTop: "3px" }}>
             <a
               className={"linkToDocs"}
-              href="https://help.apitable.com/docs/guide/intro-widget-funnel-chart/"
+              href="https://help.aitable.ai/docs/guide/intro-widget-funnel-chart/"
               target="_blank"
             >
               <InformationSmallOutlined></InformationSmallOutlined>

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.15",
+  "version": "0.1.17",
   "description": "a apitable widget",
   "engines": {
     "node": ">=8.x"
@@ -50,6 +50,6 @@
     "prettier": "^2.6.2"
   },
   "authorName": "__template__",
-  "authorLink": "https://apitable.com",
-  "authorEmail": "developer@apitable.com"
+  "authorLink": "https://aitable.ai",
+  "authorEmail": "developer@aitable.ai"
 }

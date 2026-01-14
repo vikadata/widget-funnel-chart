@@ -16,7 +16,7 @@ on:
       allow_error:
         description: 'allow a workflow run from failing when a job fails'
         required: false
-        default: false
+        default: true
         type: boolean
 jobs:
   build:
@@ -49,19 +49,21 @@ jobs:
         property: version
 
     # develop submit
-    # Note: continue-on-error is set to true because this is a template widget.
+    # Note: continue-on-error defaults to true because this is a template widget.
     # Users should configure their own packageId in widget.config.json before submission.
+    # Set allow_error to false in workflow_dispatch to enforce strict error handling.
     - name: Submit Widget develop
-      continue-on-error: true
+      continue-on-error: ${{ github.event.inputs.allow_error != 'false' }}
       run: |
         echo "Submit Widget develop"
         npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.DEVELOP_HOST }} --token ${{ secrets.DEVELOP_TOKEN }}
 
     # production submit
-    # Note: continue-on-error is set to true because this is a template widget.
+    # Note: continue-on-error defaults to true because this is a template widget.
     # Users should configure their own packageId in widget.config.json before submission.
+    # Set allow_error to false in workflow_dispatch to enforce strict error handling.
     - name: Submit Widget production
-      continue-on-error: true
+      continue-on-error: ${{ github.event.inputs.allow_error != 'false' }}
       run: |
         echo "Submit Widget production"
         npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.PRODUCTION_HOST }} --token ${{ secrets.PRODUCTION_TOKEN }}

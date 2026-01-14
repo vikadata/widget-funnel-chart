@@ -50,14 +50,14 @@ jobs:
 
     # develop submit
     - name: Submit Widget develop
-      continue-on-error: ${{ inputs.allow_error }}
+      continue-on-error: ${{ github.event.inputs.allow_error == 'true' }}
       run: |
         echo "Submit Widget develop"
         npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.DEVELOP_HOST }} --token ${{ secrets.DEVELOP_TOKEN }}
 
     # production submit
     - name: Submit Widget production
-      continue-on-error: ${{ inputs.allow_error }}
+      continue-on-error: ${{ github.event.inputs.allow_error == 'true' }}
       run: |
         echo "Submit Widget production"
         npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.PRODUCTION_HOST }} --token ${{ secrets.PRODUCTION_TOKEN }}
